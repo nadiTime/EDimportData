@@ -1,9 +1,12 @@
 <?php
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'package/JSONParser.php';
-
+require_once('dataBase.php');
+$mysqli = connect();
+$delete = $mysqli->query("delete from stations_listings");
+if($delete) echo "delete success";
 error_reporting(E_ALL);
 ini_set('display_errors','On');
-ini_set('max_execution_time',5);
+ini_set('max_execution_time',6000);
 $GLOBALS['currentObjSt'] = false;
 $GLOBALS['currentObjListings'] = false;
 $GLOBALS['currentObjSingleListing'] = false;
@@ -33,11 +36,13 @@ function objEnd($value, $property) {
     
 		if(!$GLOBALS['isInListings']){
   		
-		  nadilog();
+		  //nadilog();
+		  
 		  echo "<hr>";
 		}
 		else {
-		  print_a_global('currentObjSingleListing');
+		  createQuery($GLOBALS['currentObjSingleListing'] );
+		  //print_a_global('currentObjSingleListing');
 		
 		}
     
