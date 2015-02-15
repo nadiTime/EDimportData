@@ -116,4 +116,4 @@ $parser->initialise();
 
 //echo "Parsing top level array document...\n";
 // parse the top level array
-$parser->parseDocument(__DIR__ . '/stations.json');
+$parser->parseDocument('http://eddb.io/archive/v2/stations.json');
