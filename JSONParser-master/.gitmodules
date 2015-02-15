@@ -1,0 +1,3 @@
+[submodule "lib/JLexPHP"]
+	path = lib/JLexPHP
+	url = git@github.com:kuma-giyomu/JLexPHP.git
