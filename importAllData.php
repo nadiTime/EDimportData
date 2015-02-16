@@ -1,15 +1,15 @@
 <?php
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'package/JSONParser.php';
+require_once (__DIR__) . DIRECTORY_SEPARATOR . 'JSONParser-master/package/JSONParser.php';
 require_once('dataBase.php');
-$mysqli = connect();
-$delete = $mysqli->query("delete from stations_listings");
+//$mysqli = connect();
+$delete = dao::query("delete from stations_listings");
 if($delete) echo "delete success";
 
 
 ini_set('memory_limit', '1024M');
 error_reporting(E_ALL);
 ini_set('display_errors','On');
-ini_set('max_execution_time',6000);
+ini_set('max_execution_time',600000);
 
 
 $GLOBALS['currentObjSt'] = false;
@@ -43,10 +43,9 @@ function objEnd($value, $property) {
   		
 		  //nadilog();
 		  
-		  echo "<hr>";
 		}
 		else {
-		  createQuery($GLOBALS['currentObjSingleListing'] );
+		  insertListingFromObject($GLOBALS['currentObjSingleListing'] );
 		  //print_a_global('currentObjSingleListing');
 		
 		}
@@ -103,24 +102,6 @@ function scalar($value, $property) {
 	//printf("Value: %s\n", $value);
 	value($property, $value);
 }
-
-// initialise the parser object
-$parser = new JSONParser();
-
-// sets the callbacks
-$parser->setArrayHandlers('arrayStart', 'arrayEnd');
-$parser->setObjectHandlers('objStart', 'objEnd');
-$parser->setPropertyHandler('property');
-$parser->setScalarHandler('scalar');
-
-//echo "Parsing top level object document...\n";
-// parse the document
-//$parser->parseDocument(__DIR__ . '/data.json');
-
-$parser->initialise();
-
-//echo "Parsing top level array document...\n";
-// parse the top level array
 
 
 
@@ -224,11 +205,11 @@ $parser->initialise();
 		$stationsStr = file_get_contents("http://eddb.io/archive/v2/stations_lite.json");
 		$stations = json_decode($stationsStr,true);
                 foreach($stations as $station) {
-                	print_r($station);
+                //	print_r($station);
                     addStation($station);
                 }
                 
-                $parser->parseDocument('http://eddb.io/archive/v2/stations.json');
+                
 
 	}
 	
@@ -251,3 +232,24 @@ $parser->initialise();
         importSystems();
          echo 'Imported Systems/n';
 	importStations();
+	
+	
+	// initialise the parser object
+$parser = new JSONParser();
+
+// sets the callbacks
+$parser->setArrayHandlers('arrayStart', 'arrayEnd');
+$parser->setObjectHandlers('objStart', 'objEnd');
+$parser->setPropertyHandler('property');
+$parser->setScalarHandler('scalar');
+
+//echo "Parsing top level object document...\n";
+// parse the document
+//$parser->parseDocument(__DIR__ . '/data.json');
+
+$parser->initialise();
+
+//echo "Parsing top level array document...\n";
+// parse the top level array
+
+$parser->parseDocument('http://eddb.io/archive/v2/stations.json');

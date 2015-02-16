@@ -1,37 +1,44 @@
 <?php
-  function connect(){
-    $mysqli = new mysqli("localhost","root","","eddb");
-    if ($mysqli->connect_error) {
-      die('Connect Error (' . $mysqli->connect_errno . ') '
-            . $mysqli->connect_error);
-    }
-    return $mysqli;
-  }
-  function insertQuery($query){
-    $mysqliObj = connect();
-    $answer = $mysqliObj->query($query);
-    if($answer) echo "insert succed";
-  }
-  function createQuery($obj){
+  function insertListingFromObject($obj){
     $string = "INSERT INTO stations_listings (`id`,`station_id`,`commodity_id`,`supply`,`buy_price`,`sell_price`,`demand`,`collected_at`) VALUES('";
     foreach($obj as $value){
       $string.=$value."','";
     }
     $string = substr($string, 0, -2);
     $string.=")";
-    insertQuery($string);
-    echo $string;
-    echo "<br>";
+    dao::query($string);
+   // echo $string;
+   // echo "<br>";
 
   }
   
   
+  
+  
+  
 	class dao {
+		
+		private static $connection = false;
+		
+		public static function connect() {
+			if(self::$connection) return true;
+			self::$connection = new mysqli("localhost","root","","eddb");
+		    if (self::$connection->connect_error) {
+		      die('Connect Error (' . self::$connection->connect_errno . ') '
+		            . self::$connection->connect_error);
+		    }
+		    return true;
+		}
+		
         public static function query($query) {
-	        $result = insertQuery($query);
+        	if(!self::$connection) self::connect();
+	        $result = self::$connection->query($query);
 	        return $result;
 	    }
 	}
-  
+	
+	
+	dao::query('some kind of SQL query');
+	dao::query('another SQL query');  
 
 ?>
