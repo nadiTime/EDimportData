@@ -25,5 +25,13 @@
 
   }
   
+  
+	class dao {
+        public static function query($query) {
+	        $result = insertQuery($query);
+	        return $result;
+	    }
+	}
+  
 
 ?>
