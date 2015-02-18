@@ -2,8 +2,8 @@
 require_once (__DIR__) . DIRECTORY_SEPARATOR . 'JSONParser-master/package/JSONParser.php';
 require_once('dataBase.php');
 //$mysqli = connect();
-$delete = dao::query("delete from stations_listings");
-if($delete) echo "delete success";
+
+
 
 
 ini_set('memory_limit', '1024M');
@@ -111,69 +111,74 @@ function scalar($value, $property) {
 
 
 	function addPossibleCategory($category) {
+		$link = dao::mysqliObj();
         $query = 'insert into commodities_category set ' .
-                 'id = "'.mysql_real_escape_string($category["id"]).'", ' .
-                'name = "'.mysql_real_escape_string($category["name"]).'"';
+                 'id = "'.mysqli_real_escape_string($link,$category["id"]).'", ' .
+                'name = "'.mysqli_real_escape_string($link,$category["name"]).'"';
         $res = dao::query($query);
 	}
 	
 	function addCommodity($commodity) {
-	 $query = 'insert into commodities set ' .
-                 'id = "'.mysql_real_escape_string($commodity["id"]).'", ' .
-                'name = "'.mysql_real_escape_string($commodity["name"]).'", ' .
-                'category_id = "'.mysql_real_escape_string($commodity["category_id"]).'", ' .
-                'average_price = "'.mysql_real_escape_string($commodity["average_price"]).'"';
+		$link = dao::mysqliObj();
+	 	$query = 'insert into commodities set ' .
+                 'id = "'.mysqli_real_escape_string($link,$commodity["id"]).'", ' .
+                'name = "'.mysqli_real_escape_string($link,$commodity["name"]).'", ' .
+                'category_id = "'.mysqli_real_escape_string($link,$commodity["category_id"]).'", ' .
+                'average_price = "'.mysqli_real_escape_string($link,$commodity["average_price"]).'"';
         $res = dao::query($query);
 	}
 	
 	
 	function addSystem($system) {
-	 $query = 'insert into systems set ' .
-                 'id = "'.mysql_real_escape_string($system["id"]).'", ' .
-                'name = "'.mysql_real_escape_string($system["name"]).'", ' .
-                'x = "'.mysql_real_escape_string($system["x"]).'", ' .
-                'y = "'.mysql_real_escape_string($system["y"]).'", ' .
-                'z = "'.mysql_real_escape_string($system["z"]).'", ' .
-                'faction = "'.mysql_real_escape_string($system["faction"]).'", ' .
-                'population = "'.mysql_real_escape_string($system["population"]).'", ' .
-                'government = "'.mysql_real_escape_string($system["government"]).'", ' .
-                'allegiance = "'.mysql_real_escape_string($system["allegiance"]).'", ' .
-                'state = "'.mysql_real_escape_string($system["state"]).'", ' .
-                'security = "'.mysql_real_escape_string($system["security"]).'", ' .
-                'primary_economy = "'.mysql_real_escape_string($system["primary_economy"]).'"';
+		$link = dao::mysqliObj();
+	 	$query = 'insert into systems set ' .
+                 'id = "'.mysqli_real_escape_string($link,$system["id"]).'", ' .
+                'name = "'.mysqli_real_escape_string($link,$system["name"]).'", ' .
+                'x = "'.mysqli_real_escape_string($link,$system["x"]).'", ' .
+                'y = "'.mysqli_real_escape_string($link,$system["y"]).'", ' .
+                'z = "'.mysqli_real_escape_string($link,$system["z"]).'", ' .
+                'faction = "'.mysqli_real_escape_string($link,$system["faction"]).'", ' .
+                'population = "'.mysqli_real_escape_string($link,$system["population"]).'", ' .
+                'government = "'.mysqli_real_escape_string($link,$system["government"]).'", ' .
+                'allegiance = "'.mysqli_real_escape_string($link,$system["allegiance"]).'", ' .
+                'state = "'.mysqli_real_escape_string($link,$system["state"]).'", ' .
+                'security = "'.mysqli_real_escape_string($link,$system["security"]).'", ' .
+                'primary_economy = "'.mysqli_real_escape_string($link,$system["primary_economy"]).'"';
         $res = dao::query($query);
 	}
         
         function addStation($station) {
+        	$link = dao::mysqliObj();
             $query = 'insert into stations set ' .
-                   'id = "'.mysql_real_escape_string($station["id"]).'", ' .
-                   'name = "'.mysql_real_escape_string($station["name"]).'", ' .
-                   'system_id = "'.mysql_real_escape_string($station["system_id"]).'", ' .
-                   'has_blackmarket = "'.mysql_real_escape_string($station["has_blackmarket"]).'", ' .
-                   'max_landing_pad_size = "'.mysql_real_escape_string($station["max_landing_pad_size"]).'", ' .
-                   'distance_to_star = "'.mysql_real_escape_string($station["distance_to_star"]).'", ' .
-                   'faction = "'.mysql_real_escape_string($station["faction"]).'", ' .
-                   'government = "'.mysql_real_escape_string($station["government"]).'", ' .
-                   'allegiance = "'.mysql_real_escape_string($station["allegiance"]).'", ' .
-                   'state = "'.mysql_real_escape_string($station["state"]).'", ' .
-                   'type = "'.mysql_real_escape_string($station["type"]).'", ' .
-                   'has_commodities = "'.mysql_real_escape_string($station["has_commodities"]).'", ' .
-                   'has_refuel = "'.mysql_real_escape_string($station["has_refuel"]).'", ' .
-                   'has_repair = "'.mysql_real_escape_string($station["has_repair"]).'", ' .
-                   'has_outfitting = "'.mysql_real_escape_string($station["has_outfitting"]).'", ' .
-                   'has_shipyard = "'.mysql_real_escape_string($station["has_shipyard"]).'"';
+                   'id = "'.mysqli_real_escape_string($link,$station["id"]).'", ' .
+                   'name = "'.mysqli_real_escape_string($link,$station["name"]).'", ' .
+                   'system_id = "'.mysqli_real_escape_string($link,$station["system_id"]).'", ' .
+                   'has_blackmarket = "'.mysqli_real_escape_string($link,$station["has_blackmarket"]).'", ' .
+                   'max_landing_pad_size = "'.mysqli_real_escape_string($link,$station["max_landing_pad_size"]).'", ' .
+                   'distance_to_star = "'.mysqli_real_escape_string($link,$station["distance_to_star"]).'", ' .
+                   'faction = "'.mysqli_real_escape_string($link,$station["faction"]).'", ' .
+                   'government = "'.mysqli_real_escape_string($link,$station["government"]).'", ' .
+                   'allegiance = "'.mysqli_real_escape_string($link,$station["allegiance"]).'", ' .
+                   'state = "'.mysqli_real_escape_string($link,$station["state"]).'", ' .
+                   'type = "'.mysqli_real_escape_string($link,$station["type"]).'", ' .
+                   'has_commodities = "'.mysqli_real_escape_string($link,$station["has_commodities"]).'", ' .
+                   'has_refuel = "'.mysqli_real_escape_string($link,$station["has_refuel"]).'", ' .
+                   'has_repair = "'.mysqli_real_escape_string($link,$station["has_repair"]).'", ' .
+                   'has_outfitting = "'.mysqli_real_escape_string($link,$station["has_outfitting"]).'", ' .
+                   'has_shipyard = "'.mysqli_real_escape_string($link,$station["has_shipyard"]).'"';
             $res = dao::query($query);
 	}
         
         function addListing($listing) {
+        	$link = dao::mysqliObj();
             $query = 'insert into stations_listings set ' .
-                   'id = "'.mysql_real_escape_string($listing["id"]).'", ' .
-                   'station_id = "'.mysql_real_escape_string($listing["station_id"]).'", ' .
-                   'commodity_id = "'.mysql_real_escape_string($listing["commodity_id"]).'", ' .
-                   'supply = "'.mysql_real_escape_string($listing["supply"]).'", ' .
-                   'buy_price = "'.mysql_real_escape_string($listing["buy_price"]).'", ' .
-                   'sell_price = "'.mysql_real_escape_string($listing["sell_price"]).'", ' .   
-                   'collected_at = "'.mysql_real_escape_string($listing["collected_at"]).'"';
+                   'id = "'.mysqli_real_escape_string($link,$listing["id"]).'", ' .
+                   'station_id = "'.mysqli_real_escape_string($link,$listing["station_id"]).'", ' .
+                   'commodity_id = "'.mysqli_real_escape_string($link,$listing["commodity_id"]).'", ' .
+                   'supply = "'.mysqli_real_escape_string($link,$listing["supply"]).'", ' .
+                   'buy_price = "'.mysqli_real_escape_string($link,$listing["buy_price"]).'", ' .
+                   'sell_price = "'.mysqli_real_escape_string($link,$listing["sell_price"]).'", ' .   
+                   'collected_at = "'.mysqli_real_escape_string($link,$listing["collected_at"]).'"';
             $res = dao::query($query);
 	}
 	
@@ -203,7 +208,6 @@ function addEcon($econ_name){
         $econ = dao::query($queryId);
 		if(!$econ->fetch_assoc()){
             $queryInsert = "insert into economies (`economy_name`) values ('".$econ_name."')";
-            echo "insert economie";
             dao::query($queryInsert);
             $econ = dao::query($queryId);
        
@@ -230,6 +234,44 @@ function addEcon($econ_name){
 
     	dao::query($query);
 	}
+	function commodityId($name){
+			$queryId = "select id from commodities where name = '".$name."'";
+			$commodity_id= dao::query($queryId);
+
+    		$temp = $commodity_id->fetch_assoc();
+    		$commodity_id = $temp['id'];
+    		return $commodity_id;	
+	}
+
+	function addStationImportCommodities($station_id,$import){
+		$commodity_id = commodityId($import);
+		
+		if($commodity_id){
+			$insertQuery = "insert into station_import_commodities (`station_id`,`commodity_id`) values ('".$station_id."','".$commodity_id."')";
+			dao::query($insertQuery);
+		}
+
+	}
+	function addStationExportCommodities($station_id,$export){
+		$commodity_id = commodityId($export);
+		
+		if($commodity_id){
+			$insertQuery = "insert into station_export_commodities (`station_id`,`commodity_id`) values ('".$station_id."','".$commodity_id."')";
+			dao::query($insertQuery);
+		}
+		
+	}
+
+	function addStationProhibitedCommodities($station_id,$prohibited){
+		$commodity_id = commodityId($prohibited);
+		
+		if($commodity_id){
+			$insertQuery = "insert into station_prohibited_commodities (`station_id`,`commodity_id`) values ('".$station_id."','".$commodity_id."')";
+			dao::query($insertQuery);
+		}
+		
+	}
+
 	
 	function importStations() {
 		$stationsStr = file_get_contents("http://eddb.io/archive/v2/stations_lite.json");
@@ -241,13 +283,14 @@ function addEcon($econ_name){
                  	addStationEcon($station['id'],$econ);
             	}	
             	foreach ($station['import_commodities'] as  $import) {
-            		
+            		addStationImportCommodities($station['id'],$import);
             	}
             	foreach ($station['export_commodities'] as  $export) {
+            		addStationExportCommodities($station['id'],$export);
             		
             	}
             	foreach ($station['prohibited_commodities'] as  $prohib) {
-            		
+            		addStationProhibitedCommodities($station['id'],$prohib);
             	}
             }
         }
@@ -256,11 +299,19 @@ function addEcon($econ_name){
 		dao::query("delete from commodities");
 		dao::query("delete from commodities_category");
 		dao::query("delete from stations");
+		dao::query("DROP TABLE IF EXISTS `stations_listings`");
+		dao::query("CREATE TABLE `stations_listings` ( `id` int(255) NOT NULL, `station_id` int(255) NOT NULL, `commodity_id` int(255) NOT NULL, `supply` int(255) NOT NULL, `buy_price` int(255) NOT NULL, `sell_price` int(255) NOT NULL, `demand` int(255) NOT NULL, `collected_at` int(255) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 		dao::query("delete from systems");
-		dao::query("delete from station_economies");
-		dao::query("delete from economies");
-		dao::query("ALTER TABLE economies AUTO_INCREMENT = 1");
-		dao::query("ALTER TABLE station_economies AUTO_INCREMENT = 1");
+		dao::query("DROP TABLE IF EXISTS `station_economies`");
+		dao::query("DROP TABLE IF EXISTS `economies`");
+		dao::query("CREATE TABLE `economies` (`id` int(11) unsigned NOT NULL AUTO_INCREMENT,`economy_name` varchar(64) NOT NULL,PRIMARY KEY (`id`),UNIQUE KEY `unique_economy_name` (`economy_name`)) ENGINE=InnoDB DEFAULT CHARSET=utf8");
+		dao::query("CREATE TABLE `station_economies` (`id` int(11) unsigned NOT NULL AUTO_INCREMENT, `station_id` int(11) NOT NULL, `economy_id` int(11) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8");
+		dao::query("DROP TABLE IF EXISTS `station_export_commodities`");
+		dao::query("CREATE TABLE `station_export_commodities` ( `id` int(11) unsigned NOT NULL AUTO_INCREMENT, `station_id` int(11) NOT NULL, `commodity_id` int(11) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8");
+		dao::query("DROP TABLE IF EXISTS `station_import_commodities`");
+		dao::query("CREATE TABLE `station_import_commodities` ( `id` int(11) unsigned NOT NULL AUTO_INCREMENT, `station_id` int(11) NOT NULL, `commodity_id` int(11) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8");
+		dao::query("DROP TABLE IF EXISTS `station_prohibited_commodities`");
+		dao::query("CREATE TABLE `station_prohibited_commodities` ( `id` int(11) unsigned NOT NULL AUTO_INCREMENT, `station_id` int(11) NOT NULL, `commodity_id` int(11) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8");
 	}
 	
 
@@ -269,12 +320,13 @@ function addEcon($econ_name){
 	
 		deleteOldData();
 		echo 'Deleted old data/n';
-        //importCommodities();
+        importCommodities();
         echo 'Imported Commodities/n';
         
-        //importSystems();
+        importSystems();
         echo 'Imported Systems/n';
 		importStations();
+		echo "imported stations and import/export/prohibited";
 	
 	
 	// initialise the parser object
@@ -295,4 +347,4 @@ $parser->initialise();
 //echo "Parsing top level array document...\n";
 // parse the top level array
 
-//$parser->parseDocument('http://eddb.io/archive/v2/stations.json');
+$parser->parseDocument('http://eddb.io/archive/v2/stations.json');

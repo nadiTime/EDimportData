@@ -35,6 +35,10 @@
 	        $result = self::$connection->query($query);
 	        return $result;
 	    }
+	    public static function mySqliObj() {
+        	if(!self::$connection) self::connect();
+	       	return self::$connection;
+	    }
 	}
 	
 	
