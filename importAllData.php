@@ -198,26 +198,69 @@ function scalar($value, $property) {
 		//print_r($systems);
 	}
 	
+function addEcon($econ_name){
+        $queryId = "select id from economies where economy_name = '".$econ_name."'";
+        $econ = dao::query($queryId);
+		if(!$econ->fetch_assoc()){
+            $queryInsert = "insert into economies (`economy_name`) values ('".$econ_name."')";
+            echo "insert economie";
+            dao::query($queryInsert);
+            $econ = dao::query($queryId);
+       
+
+        }
+		$econId = $econ->fetch_assoc();
+       	$econ_id = $econId['id'];
+
+
+		return $econ_id;
+	}
 	
-	
+	function addStationEcon($station_id,$econ_name){
+
+    	$econ_id = addEcon($econ_name);	
+    	if(!$econ_id){
+    		$queryId = "select id from economies where economy_name = '".$econ_name."'"; // another id check
+    		$temp = dao::query($queryId);
+    		$temp = $temp->fetch_assoc();
+    		$econ_id = $temp['id'];
+    	}
+ 
+    	$query = "insert into station_economies (`station_id`,`economy_id`) values ('".$station_id."','".$econ_id."')";
+
+    	dao::query($query);
+	}
 	
 	function importStations() {
 		$stationsStr = file_get_contents("http://eddb.io/archive/v2/stations_lite.json");
 		$stations = json_decode($stationsStr,true);
-                foreach($stations as $station) {
-                //	print_r($station);
-                    addStation($station);
-                }
-                
-                
-
-	}
+            foreach($stations as $station) {
+            //	print_r($station);
+                  addStation($station);
+                foreach($station['economies'] as $econ) {
+                 	addStationEcon($station['id'],$econ);
+            	}	
+            	foreach ($station['import_commodities'] as  $import) {
+            		
+            	}
+            	foreach ($station['export_commodities'] as  $export) {
+            		
+            	}
+            	foreach ($station['prohibited_commodities'] as  $prohib) {
+            		
+            	}
+            }
+        }
 	
 	function deleteOldData() {
 		dao::query("delete from commodities");
 		dao::query("delete from commodities_category");
 		dao::query("delete from stations");
 		dao::query("delete from systems");
+		dao::query("delete from station_economies");
+		dao::query("delete from economies");
+		dao::query("ALTER TABLE economies AUTO_INCREMENT = 1");
+		dao::query("ALTER TABLE station_economies AUTO_INCREMENT = 1");
 	}
 	
 
@@ -226,12 +269,12 @@ function scalar($value, $property) {
 	
 		deleteOldData();
 		echo 'Deleted old data/n';
-        importCommodities();
+        //importCommodities();
         echo 'Imported Commodities/n';
         
-        importSystems();
-         echo 'Imported Systems/n';
-	importStations();
+        //importSystems();
+        echo 'Imported Systems/n';
+		importStations();
 	
 	
 	// initialise the parser object
@@ -252,4 +295,4 @@ $parser->initialise();
 //echo "Parsing top level array document...\n";
 // parse the top level array
 
-$parser->parseDocument('http://eddb.io/archive/v2/stations.json');
+//$parser->parseDocument('http://eddb.io/archive/v2/stations.json');
